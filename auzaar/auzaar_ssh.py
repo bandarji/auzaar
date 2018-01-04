@@ -1,7 +1,11 @@
+#!/bin/false
 # Secure Shell
 
-from paramiko import AutoAddPolicy as ssh_auto_add_policy
-from paramiko import SSHClient as ssh_client
+try:
+    from paramiko import AutoAddPolicy as ssh_auto_add_policy
+    from paramiko import SSHClient as ssh_client
+except ImportError as import_error:
+    raise SystemExit('ERROR: {}'.format(import_error))
 
 class SSH(object):
     """
@@ -38,7 +42,7 @@ class SSH(object):
         self.ssh.set_missing_host_key_policy(ssh_auto_add_policy())
         try:
             self.ssh.connect(**self.ssh_params)
-        except Exception, e:
+        except Exception as e:
             raise SystemExit('SSH error {} with {}'.\
                 format(e, self.ssh_params.get('hostname', '0')))
 

@@ -1,9 +1,13 @@
+#!/bin/false
 # Package: auzaar
 
-from auzaar import auzaar_f5
-from auzaar import auzaar_os
-from auzaar import auzaar_ssh
-from auzaar import auzaar_yaml
+try:
+    from auzaar import auzaar_f5
+    from auzaar import auzaar_os
+    from auzaar import auzaar_ssh
+    from auzaar import auzaar_yaml
+except ImportError as import_error:
+    raise SystemExit('ERROR: {}'.format(import_error))
 
 __all__ = [
     'auzaar_f5',
