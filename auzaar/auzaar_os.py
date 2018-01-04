@@ -1,13 +1,17 @@
+#!/bin/false
 # OS functions
 
-from os import environ as os_environ
-from os import path as os_path
-from socket import error as socket_error
-from socket import inet_aton as socket_inet_aton
-from subprocess import PIPE as ppipe
-from subprocess import Popen as popen
-from sys import argv as sysargv
-from time import time as s_epoch
+try:
+    from os import environ as os_environ
+    from os import path as os_path
+    from socket import error as socket_error
+    from socket import inet_aton as socket_inet_aton
+    from subprocess import PIPE as ppipe
+    from subprocess import Popen as popen
+    from sys import argv as sysargv
+    from time import time as s_epoch
+except ImportError as import_error:
+    raise SystemExit('ERROR: {}'.format(import_error))
 
 def exec_command(cmd_list=None):
     """ Run a command and return output as a list """

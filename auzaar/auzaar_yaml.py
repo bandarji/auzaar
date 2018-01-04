@@ -1,7 +1,11 @@
+#!/bin/false
 # YAML Processing
 
-from yaml import safe_load as yaml_load
-
+try:
+    from yaml import safe_load as yaml_load
+except ImportError as import_error:
+    raise SystemExit('ERROR: {}'.format(import_error))
+    
 class YAML(object):
     """
         Processing YAML files

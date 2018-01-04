@@ -1,12 +1,16 @@
+#!/bin/false
 # F5 Networks
 
-from ast import literal_eval as ast_eval
-from requests import ConnectionError as r_ConnectionError
-from requests import get as r_get
-from f5.bigip import ManagementRoot
-from requests import Timeout as r_Timeout
-from requests import TooManyRedirects as r_TooManyRedirects
-from requests.packages.urllib3 import disable_warnings as https_warn_disable
+try:
+    from ast import literal_eval as ast_eval
+    from requests import ConnectionError as r_ConnectionError
+    from requests import get as r_get
+    from f5.bigip import ManagementRoot
+    from requests import Timeout as r_Timeout
+    from requests import TooManyRedirects as r_TooManyRedirects
+    from requests.packages.urllib3 import disable_warnings as https_warn_disable
+except ImportError as import_error:
+    raise SystemExit('ERROR: {}'.format(import_error))
 
 class BigIPCluster(object):
     """ F5 Networks BIG-IP cluster class """
@@ -44,14 +48,14 @@ class BigIPCluster(object):
                 raise SystemExit('ERROR: Timeout {}'.format(address))
             except r_TooManyRedirects:
                 raise SystemExit('ERROR: TooManyRedirects {}'.format(address))
-            except Exception, e:
-                raise SystemExit('ERROR: r_get failed')
+            except Exception as e:
+                raise SystemExit('ERROR: r_get failed - {}'.format(e))
             x = ast_eval(str(r.text))
             try:
                 status = x['entries']['https://localhost/mgmt/tm/cm/failover-status/0']['nestedStats']['entries']['status']['description']
             except KeyError:
                 raise SystemExit('ERROR: KeyError')
-            except Exception, e:
+            except Exception as e:
                 raise SystemExit('ERROR: {}'.format(e))
             if status == "ACTIVE":
                 self.addr_active = address
